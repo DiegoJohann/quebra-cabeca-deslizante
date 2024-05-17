@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
 
 public class Principal {
 
@@ -11,7 +14,10 @@ public class Principal {
         QuebraCabeca quebraCabeca = new QuebraCabeca(estadoInicial, null);
 
         HashSet<String> fechados = new HashSet<>();
-        Queue<QuebraCabeca> abertos = new LinkedList<>();
+        //Queue<QuebraCabeca> abertos = new LinkedList<>();
+        PriorityQueue<QuebraCabeca> abertos = new PriorityQueue<>(Comparator.comparingInt(
+                estado -> estado.buscaCaminhoPercorrido().size() + estado.distancia(estadoObjetivo)
+        ));
         abertos.add(quebraCabeca);
 
         while (!abertos.isEmpty()) {
@@ -25,6 +31,7 @@ public class Principal {
                 for (QuebraCabeca item : estadoAtual.buscaCaminhoPercorrido().reversed()) {
                     System.out.println(Arrays.toString(item.estado()));
                 }
+                System.out.printf("\nEstados no caminho de sucesso: %d\n", estadoAtual.buscaCaminhoPercorrido().size());
                 break;
             }
 
