@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public record QuebraCabeca(int[] estado, QuebraCabeca pai) {
@@ -59,17 +56,43 @@ public record QuebraCabeca(int[] estado, QuebraCabeca pai) {
         return caminhoPercorrido;
     }
 
+//    public int distancia(int[] estadoObjetivo) {
+//        int distancia = 0;
+//        int dimensao = 3;
+//
+//        for (int i = 0; i < estado.length; i++) {
+//            int valor = estado[i];
+//            if (valor != 0) {
+//                int posicaoObjetivo = IntStream.range(0, estadoObjetivo.length)
+//                        .filter(j -> estadoObjetivo[j] == valor)
+//                        .findFirst()
+//                        .orElse(-1);
+//
+//                int linhaAtual = i / dimensao;
+//                int colunaAtual = i % dimensao;
+//                int linhaObjetivo = posicaoObjetivo / dimensao;
+//                int colunaObjetivo = posicaoObjetivo % dimensao;
+//
+//                distancia += Math.abs(linhaAtual - linhaObjetivo) + Math.abs(colunaAtual - colunaObjetivo);
+//            }
+//        }
+//        return distancia;
+//    }
+
+    // Método otimizado para performance
     public int distancia(int[] estadoObjetivo) {
         int distancia = 0;
         int dimensao = 3;
+        Map<Integer, Integer> posicoesObjetivo = new HashMap<>();
+
+        for (int i = 0; i < estadoObjetivo.length; i++) {
+            posicoesObjetivo.put(estadoObjetivo[i], i);
+        }
 
         for (int i = 0; i < estado.length; i++) {
             int valor = estado[i];
             if (valor != 0) {
-                int posicaoObjetivo = IntStream.range(0, estadoObjetivo.length)
-                        .filter(j -> estadoObjetivo[j] == valor)
-                        .findFirst()
-                        .orElse(-1);
+                int posicaoObjetivo = posicoesObjetivo.get(valor);
 
                 int linhaAtual = i / dimensao;
                 int colunaAtual = i % dimensao;
