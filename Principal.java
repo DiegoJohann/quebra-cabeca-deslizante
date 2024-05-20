@@ -1,3 +1,6 @@
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -49,5 +52,14 @@ public class Principal {
         long fim = System.currentTimeMillis();
         long tempoDecorrido = fim - inicio;
         System.out.println("\nTempo decorrido: " + tempoDecorrido + " milissegundos");
+
+        // Medição de memória e processamento ao fim do programa
+        Runtime runtime = Runtime.getRuntime();
+        int mb = 1024 * 1024;
+        System.out.println("Memória usada (aproximadamente): " + (runtime.totalMemory() - runtime.freeMemory()) / mb + " MB");
+
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        System.out.println("Uso de heap: " + heapMemoryUsage.getUsed() / mb + " MB");
     }
 }
